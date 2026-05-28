@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus {
+  ACTIVE
+  COMPLETED
+}
+
+model Team {
+  id        String   @id @default(uuid())
+  name      String
+  users     User[]
+  tasks     Task[]
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("teams")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  teamId    String   @map("team_id")
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  team Team @relation(fields: [teamId], references: [id])
+
+  createdTasks  Task[] @relation("TaskCreatedBy")
+  assignedTasks Task[] @relation("TaskAssignedTo")
+
+  @@map("users")
+}
+
+model Task {
+  id           String  @id @default(uuid())
+  teamId       String  @map("team_id")
+  createdById  String  @map("created_by")
+  assignedToId String? @map("assigned_to")
+
+  title       String
+  description String?
+  priority    TaskPriority
+  status      TaskStatus   @default(ACTIVE)
+
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  team Team @relation(fields: [teamId], references: [id])
+
+  createdBy  User  @relation("TaskCreatedBy", fields: [createdById], references: [id])
+  assignedTo User? @relation("TaskAssignedTo", fields: [assignedToId], references: [id])
+
+  @@index([teamId, status])
+  @@index([assignedToId])
+  @@index([completedAt])
+  @@map("tasks")
+}
