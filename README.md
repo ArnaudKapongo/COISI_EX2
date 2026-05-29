@@ -26,6 +26,21 @@ Le périmètre reste volontairement centré sur les fonctionnalités demandées 
 
 ---
 
+## Livrables de l’exercice
+
+Les livrables demandés sont disponibles dans ce projet :
+
+1. **Schéma d’architecture**
+   Voir : [`docs/schema-architecture-exercice2.pdf`](./docs/schema-architecture-exercice2.pdf)
+
+2. **Liste des endpoints API**
+   Voir la section [Liste des endpoints API](#liste-des-endpoints-api)
+
+3. **Schéma de base de données**
+   Voir : [`docs/schema-base-de-donnees.pdf`](./docs/schema-base-de-donnees.pdf)
+
+---
+
 ## Prérequis
 
 Avant de lancer le projet, il faut avoir installé :
@@ -132,13 +147,13 @@ http://localhost:3000
 
 ## Documentation Swagger
 
-La documentation Swagger est disponible à l’adresse :
+La documentation Swagger UI est disponible à l’adresse :
 
 ```txt
 http://localhost:3000/docs
 ```
 
-Swagger permet de visualiser et tester directement les endpoints de l’API.
+Swagger permet de visualiser et tester directement les endpoints de l’API depuis le navigateur.
 
 ---
 
@@ -301,44 +316,6 @@ Seules les tâches ayant le statut `COMPLETED` sont retournées.
 
 ## Commandes utiles
 
-Démarrer la base de données :
-
-```bash
-docker compose up -d
-```
-
-Appliquer les migrations :
-
-```bash
-pnpm exec prisma migrate dev
-```
-
-Générer le client Prisma :
-
-```bash
-pnpm exec prisma generate
-```
-
-Exécuter le seed :
-
-```bash
-pnpm exec prisma db seed
-```
-
-Démarrer l’API :
-
-```bash
-pnpm start:dev
-```
-
-Réinitialiser la base :
-
-```bash
-pnpm exec prisma migrate reset
-```
-
-Récapitulatif :
-
 ### Première installation
 
 ```bash
@@ -349,20 +326,34 @@ pnpm exec prisma migrate dev
 pnpm exec prisma generate
 pnpm exec prisma db seed
 pnpm start:dev
+```
 
 ### Lancement quotidien
+
+```bash
 docker compose up -d
 pnpm start:dev
+```
 
 ### Réinitialiser la base
+
+```bash
 pnpm exec prisma migrate reset
+```
 
 ### Après modification du schema Prisma
+
+```bash
 pnpm exec prisma migrate dev
 pnpm exec prisma generate
+```
 
-### Visualisation dans prisma studio 
+### Visualiser la base avec Prisma Studio
+
+```bash
 pnpm exec prisma studio
+```
+
 ---
 
 ## Notes
